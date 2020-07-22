@@ -16,34 +16,34 @@ public class DirectoryListener extends FileAlterationListenerAdaptor{
     }
 
     public void onDirectoryCreate(File file) {
-        sendData(file);
+        sendData(file,"CREATE");
     }
 
     public void onDirectoryChange(File file) {
-        sendData(file);
+        sendData(file, "MODIFY");
     }
 
     public void onDirectoryDelete(File file) {
-        sendData(file);
+        sendData(file, "DELETE");
     }
 
     public void onFileCreate(File file) {
-        sendData(file);
+        sendData(file,"CREATE");
     }
 
     public void onFileChange(File file) {
-        sendData(file);
+        sendData(file, "MODIFY");
     }
 
     public void onFileDelete(File file) {
-        sendData(file);
+        sendData(file, "DELETE");
     }
 
-    private void sendData(File file) {
+    private void sendData(File file, String eventType) {
         if(file != null && file.exists()) {
 
             try {
-                MonitorData data = new MonitorData("localhost:8080", file.isDirectory(), "CREATE",
+                MonitorData data = new MonitorData("localhost:8080", file.isDirectory(), eventType,
                         file.getPath(), new Date());
                 RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),
                         new ObjectMapper().writeValueAsString(data));
