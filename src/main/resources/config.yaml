@@ -1,0 +1,4 @@
+---
+destinationURL: <rest-api-to send-monitor data>
+pollingTimeInterval: 10000
+directoryPath: <directory-to-monitor>
