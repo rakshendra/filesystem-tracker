@@ -5,6 +5,8 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class MonitorApp {
     public static void main(String[] args) {
@@ -12,8 +14,8 @@ public class MonitorApp {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         Configuration configuration = null;
         try {
-            String pathname = System.getProperty("java.io.tmpdir") + "/appconfig/monitor-config.yaml";
-            File configFile = new File(pathname);
+            Path pathname =  Paths.get(System.getProperty("java.io.tmpdir"), "appconfig/monitor-config.yaml") ;
+            File configFile = new File(pathname.toString());
             if(configFile.exists()) {
                 configuration = mapper.readValue(configFile, Configuration.class);
             }else{
