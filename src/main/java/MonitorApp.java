@@ -12,7 +12,13 @@ public class MonitorApp {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         Configuration configuration = null;
         try {
-            configuration = mapper.readValue(new File(Thread.currentThread().getContextClassLoader().getResource("config.yaml").getFile()), Configuration.class);
+            String pathname = System.getProperty("java.io.tmpdir") + "/appconfig/monitor-config.yaml";
+            File configFile = new File(pathname);
+            if(configFile.exists()) {
+                configuration = mapper.readValue(configFile, Configuration.class);
+            }else{
+                throw new IOException("Config File cannot be found at: " + pathname);
+            }
             FileAlterationMonitor monitor = new FileAlterationMonitor(configuration.getPollingTimeInterval());
             FileAlterationObserver observer = new FileAlterationObserver(configuration.getDirectoryPath());
             observer.addListener(new DirectoryListener(configuration.getDestinationURL()));
